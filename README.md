@@ -6,7 +6,9 @@
 
 1. Add the following to your site's Gemfile:
 
-`gem 'jekyll-default-layout'`
+    ```ruby
+    gem 'jekyll-default-layout'
+    ```
 
 2. And the following to your site's `_config.yml`:
 
