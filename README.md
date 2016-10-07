@@ -2,6 +2,8 @@
 
 *Silently sets default layouts for Jekyll pages and posts*
 
+[![Build Status](https://travis-ci.org/benbalter/jekyll-default-layout.svg?branch=master)](https://travis-ci.org/benbalter/jekyll-default-layout)
+
 ## Usage
 
 1. Add the following to your site's Gemfile:
