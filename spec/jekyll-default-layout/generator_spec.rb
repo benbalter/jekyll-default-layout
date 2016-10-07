@@ -150,6 +150,10 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(html_file.data["layout"]).to be_nil
     end
 
+    it "doesn't clobber existing layout preferences" do
+      expect(page_with_layout.data["layout"]).to eql("foo")
+    end
+
     context "rendering" do
       it "renders pages with the layout" do
         expect(content_of_file("page.html")).to match("PAGE LAYOUT")
