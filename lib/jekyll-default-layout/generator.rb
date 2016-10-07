@@ -37,8 +37,11 @@ module JekyllDefaultLayout
     end
 
     # What layout is appropriate for this document, if any
+    # rubocop:disable Metrics/PerceivedComplexity
     def layout_for(document)
-      if page?(document) && layout_exists?("page")
+      if index?(document) && layout_exists?("home")
+        "home"
+      elsif page?(document) && layout_exists?("page")
         "page"
       elsif post?(document) && layout_exists?("post")
         "post"
@@ -61,6 +64,10 @@ module JekyllDefaultLayout
 
     def page?(document)
       document.is_a?(Jekyll::Page)
+    end
+
+    def index?(document)
+      document.url == "/"
     end
   end
 end
