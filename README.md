@@ -23,6 +23,12 @@
 
 If no layout is specified for a Markdown post or page, the plugin automatically sets the "home", "post", "page", or "default" layout if it exists.
 
+What layout is used:
+
+* `/index.html` - the home layout, the page layout, or the default layout, if they exist, in that order
+* A page - the page layout or the default layout, if they exist, in that order
+* A post - the post layout or the default layout, if they exist, in that order
+
 ## Disabling
 
 For a specific post or page, add `layout: null` to the front matter.
