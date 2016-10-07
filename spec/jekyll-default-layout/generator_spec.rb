@@ -107,8 +107,12 @@ RSpec.describe JekyllDefaultLayout::Generator do
         expect(subject.layout_for(post)).to be_nil
       end
 
-      it "knows the layout for a post" do
-        expect(subject.layout_for(post)).to be_nil
+      it "knows the layout for a page" do
+        expect(subject.layout_for(page)).to be_nil
+      end
+
+      it "knows the layout for the index" do
+        expect(subject.layout_for(index)).to be_nil
       end
     end
   end
