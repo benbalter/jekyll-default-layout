@@ -3,6 +3,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
   let(:site) { fixture_site("site", overrides) }
   let(:subject) { described_class.new(site) }
   let(:page) { page_by_path(site, "page.md") }
+  let(:index) { page_by_path(site, "index.md") }
   let(:page_with_layout) { page_by_path(site, "page-with-layout.md") }
   let(:html_file) { page_by_path(site, "file.html") }
   let(:post) { site.posts.docs.first }
@@ -22,12 +23,18 @@ RSpec.describe JekyllDefaultLayout::Generator do
     expect(subject.post?(page)).to eql(false)
   end
 
+  it "knows the index is the index" do
+    expect(subject.index?(index)).to eql(true)
+    expect(subject.index?(post)).to eql(false)
+    expect(subject.index?(page)).to eql(false)
+  end
+
   it "grabs the markdown converter" do
     expect(subject.markdown_converter).to be_a(Jekyll::Converters::Markdown)
   end
 
   it "grabs the documents" do
-    expect(subject.documents.count).to eql(4)
+    expect(subject.documents.count).to eql(5)
   end
 
   it "knows a file is a markdown file" do
@@ -54,6 +61,10 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(subject.layout_for(page)).to eql("page")
     end
 
+    it "knows the layout for the index" do
+      expect(subject.layout_for(index)).to eql("home")
+    end
+
     context "without the page layout" do
       before { site.layouts.delete("page") }
 
@@ -70,10 +81,27 @@ RSpec.describe JekyllDefaultLayout::Generator do
       end
     end
 
+    context "without the home layout" do
+      before { site.layouts.delete("home") }
+
+      it "knows the layout for the index" do
+        expect(subject.layout_for(index)).to eql("page")
+      end
+
+      context "without the page layout" do
+        before { site.layouts.delete("page") }
+
+        it "knows the layout for the index" do
+          expect(subject.layout_for(index)).to eql("default")
+        end
+      end
+    end
+
     context "without any layouts" do
       before { site.layouts.delete("post") }
       before { site.layouts.delete("page") }
       before { site.layouts.delete("default") }
+      before { site.layouts.delete("home") }
 
       it "knows the layout for a post" do
         expect(subject.layout_for(post)).to be_nil
@@ -110,6 +138,10 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(post.data["layout"]).to eql("post")
     end
 
+    it "sets the layout for the index" do
+      expect(index.data["layout"]).to eql("home")
+    end
+
     it "doesn't set the layout for HTML files" do
       expect(html_file.data["layout"]).to be_nil
     end
@@ -121,6 +153,10 @@ RSpec.describe JekyllDefaultLayout::Generator do
 
       it "renders posts with the layout" do
         expect(content_of_file("2016/01/01/post.html")).to match("POST LAYOUT")
+      end
+
+      it "renders the index with the layout" do
+        expect(content_of_file("index.html")).to match("HOME LAYOUT")
       end
 
       it "doesn't mangle HTML files" do
