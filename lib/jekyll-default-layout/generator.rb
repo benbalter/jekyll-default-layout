@@ -4,7 +4,7 @@ module JekyllDefaultLayout
     attr_accessor :site
 
     safe true
-    priority :high
+    priority :low
 
     def initialize(site)
       @site = site
@@ -12,17 +12,14 @@ module JekyllDefaultLayout
 
     def generate(site)
       @site = site
-      defaults ||= []
-
-      JekyllDefaultLayout::LAYOUTS.each do |layout|
-        defaults.push(default_for(layout)) if should_set_default?(layout)
+      documents.each do |document|
+        next unless should_set_layout?(document)
+        document.data["layout"] = layout_for(document)
       end
     end
 
-    private
-
-    def defaults
-      site.config['defaults']
+    def should_set_layout?(document)
+      markdown?(document) && !layout_specified?(document)
     end
 
     # Does the given layout exist for the site?
@@ -31,35 +28,39 @@ module JekyllDefaultLayout
     end
 
     # Has the user already specified a default for this layout?
-    def default_exists?(layout)
-      defaults.any? do |default|
-        default['scope'] && default['scope']['layout'] == layout
+    def layout_specified?(document)
+      document.data.key? "layout"
+    end
+
+    def markdown?(document)
+      markdown_converter.matches(document.extname)
+    end
+
+    # What layout is appropriate for this document, if any
+    def layout_for(document)
+      if page?(document) && layout_exists?("page")
+        "page"
+      elsif post?(document) && layout_exists?("post")
+        "post"
+      elsif layout_exists?("default")
+        "default"
       end
     end
 
-    # Should we set a default for the given layout?
-    # Checks that:
-    #  1. The layout exists
-    #  2. The user hasn't already set a default for this layout
-    def should_set_default?(layout)
-      layout_exists?(layout) && !default_exists?(layout)
+    def documents
+      [site.pages, site.posts.docs].flatten
     end
 
-    # Returns the hash representing the front matter default for the layout
-    def default_for(layout)
-      {
-        'scope' => scope_for(layout),
-        'values' => { 'layout' => layout }
-      }
+    def markdown_converter
+      @markdown_converter ||= site.find_converter_instance(Jekyll::Converters::Markdown)
     end
 
-    # Returns a hash representing the "scope" for the front matter default
-    def scope_for(layout)
-      if layout == 'default'
-        { 'path' => '' }
-      else
-        { 'type' => layout }
-      end
+    def post?(document)
+      document.is_a?(Jekyll::Document) && document.collection.label == "posts"
+    end
+
+    def page?(document)
+      document.is_a?(Jekyll::Page)
     end
   end
 end
