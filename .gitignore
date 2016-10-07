@@ -1,3 +1,4 @@
 spec/examples.txt
 spec/fixtures/site/_site
 *.gem
+Gemfile.lock
