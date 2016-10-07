@@ -19,10 +19,10 @@
       - jekyll-default-layout
     ```
 
+## What it does
+
+If no layout is specified for a Markdown post or page, the plugin automatically sets the "post", "page", or "default" layout if it exists.
+
 ## Disabling
 
-There are two ways to disable the plugin:
-
-1. For a specific post or page, add `layout: nil` to the front matter.
-
-2. Site-wide, set a different front matter default for that layout.
+For a specific post or page, add `layout: null` to the front matter.
