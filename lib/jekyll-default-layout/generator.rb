@@ -4,7 +4,7 @@ module JekyllDefaultLayout
     attr_accessor :site
 
     safe true
-    priority :low
+    priority :lowest
 
     def initialize(site)
       @site = site
