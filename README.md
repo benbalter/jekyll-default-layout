@@ -21,7 +21,7 @@
 
 ## What it does
 
-If no layout is specified for a Markdown post or page, the plugin automatically sets the "post", "page", or "default" layout if it exists.
+If no layout is specified for a Markdown post or page, the plugin automatically sets the "home", "post", "page", or "default" layout if it exists.
 
 ## Disabling
 
