@@ -28,8 +28,9 @@ module JekyllDefaultLayout
     end
 
     # Has the user already specified a default for this layout?
+    # Note: We must use `to_liquid`, and not data, to ensure front matter defaults
     def layout_specified?(document)
-      document.data.key? "layout"
+      document.to_liquid.key? "layout"
     end
 
     def markdown?(document)
