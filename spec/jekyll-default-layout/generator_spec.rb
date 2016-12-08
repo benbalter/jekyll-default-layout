@@ -5,6 +5,9 @@ RSpec.describe JekyllDefaultLayout::Generator do
   let(:page) { page_by_path(site, "page.md") }
   let(:index) { page_by_path(site, "index.md") }
   let(:page_with_layout) { page_by_path(site, "page-with-layout.md") }
+  let(:page_with_defaults) do
+    page_by_path(site, "with-defaults/page-with-defaults.md")
+  end
   let(:html_file) { page_by_path(site, "file.html") }
   let(:post) { site.posts.docs.first }
 
@@ -34,7 +37,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
 
   it "grabs the documents" do
-    expect(subject.documents.count).to eql(5)
+    expect(subject.documents.count).to eql(6)
   end
 
   it "knows a file is a markdown file" do
@@ -135,23 +138,23 @@ RSpec.describe JekyllDefaultLayout::Generator do
     before { site.process }
 
     it "sets the layout for pages" do
-      expect(page.data["layout"]).to eql("page")
+      expect(page.to_liquid["layout"]).to eql("page")
     end
 
     it "sets the layout for posts" do
-      expect(post.data["layout"]).to eql("post")
+      expect(post.to_liquid["layout"]).to eql("post")
     end
 
     it "sets the layout for the index" do
-      expect(index.data["layout"]).to eql("home")
+      expect(index.to_liquid["layout"]).to eql("home")
     end
 
     it "doesn't set the layout for HTML files" do
-      expect(html_file.data["layout"]).to be_nil
+      expect(html_file.to_liquid["layout"]).to be_nil
     end
 
     it "doesn't clobber existing layout preferences" do
-      expect(page_with_layout.data["layout"]).to eql("foo")
+      expect(page_with_layout.to_liquid["layout"]).to eql("foo")
     end
 
     context "rendering" do
@@ -169,6 +172,24 @@ RSpec.describe JekyllDefaultLayout::Generator do
 
       it "doesn't mangle HTML files" do
         expect(content_of_file("file.html")).to_not match("LAYOUT")
+      end
+
+      context "with front matter defaults" do
+        let(:layout) { "config-specified-layout.html" }
+        let(:defaults) do
+          [
+            {
+              "scope"  => { "path" => "with-defaults" },
+              "values" => { "layout" => layout }
+            }
+          ]
+        end
+        let(:overrides) { { "defaults" => defaults } }
+        before { site.process }
+
+        it "respects front matter defaults" do
+          expect(page_with_defaults.to_liquid["layout"]).to eql(layout)
+        end
       end
     end
   end
