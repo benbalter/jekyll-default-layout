@@ -180,8 +180,8 @@ RSpec.describe JekyllDefaultLayout::Generator do
           [
             {
               "scope"  => { "path" => "with-defaults" },
-              "values" => { "layout" => layout }
-            }
+              "values" => { "layout" => layout },
+            },
           ]
         end
         let(:overrides) { { "defaults" => defaults } }
