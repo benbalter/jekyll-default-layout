@@ -25,7 +25,7 @@ If no layout is specified for a Markdown post or page, the plugin automatically 
 
 What layout is used:
 
-* `/index.html` - the home layout, the page layout, or the default layout, if they exist, in that order
+* `/index.md` - the home layout, the page layout, or the default layout, if they exist, in that order
 * A page - the page layout or the default layout, if they exist, in that order
 * A post - the post layout or the default layout, if they exist, in that order
 
