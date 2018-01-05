@@ -1,6 +1,6 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+$LOAD_PATH.unshift File.expand_path("lib", __dir__)
 require "jekyll-default-layout/version"
 
 Gem::Specification.new do |s|
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.license       = "MIT"
 
   s.add_runtime_dependency "jekyll", "~> 3.0"
-  s.add_development_dependency "rubocop", "~> 0.43"
   s.add_development_dependency "rspec", "~> 3.5"
+  s.add_development_dependency "rubocop", "~> 0.51"
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "jekyll-default-layout"
 
 RSpec.configure do |config|
