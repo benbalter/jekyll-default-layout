@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JekyllDefaultLayout
   # Injects front matter defaults to set default layouts, if they exist
   class Generator < Jekyll::Generator
