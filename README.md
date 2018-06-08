@@ -15,9 +15,11 @@
 2. And the following to your site's `_config.yml`:
 
     ```yml
-    gems:
+    plugins:
       - jekyll-default-layout
     ```
+
+Note: If you are using a Jekyll version less than 3.5.0, use the `gems` key instead of `plugins`.
 
 ## What it does
 
