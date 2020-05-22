@@ -16,6 +16,7 @@ module JekyllDefaultLayout
       @site = site
       documents.each do |document|
         next unless should_set_layout?(document)
+
         document.data["layout"] = layout_for(document)
       end
     end

@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "jekyll", ">= 3.0", "< 5.0"
   s.add_development_dependency "rspec", "~> 3.5"
   s.add_development_dependency "rubocop", "~> 0.8"
-  s.add_development_dependency "rubocop-performance", "~> 1.6"
   s.add_development_dependency "rubocop-jekyll", "~> 0.11"
+  s.add_development_dependency "rubocop-performance", "~> 1.6"
 end
