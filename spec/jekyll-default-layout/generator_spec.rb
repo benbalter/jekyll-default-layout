@@ -13,25 +13,25 @@ RSpec.describe JekyllDefaultLayout::Generator do
   let(:html_file) { page_by_path(site, "file.html") }
   let(:post) { site.posts.docs.first }
 
-  before(:each) do
+  before do
     site.reset
     site.read
   end
 
   it "knows a page is a page" do
-    expect(subject.page?(page)).to eql(true)
-    expect(subject.page?(post)).to eql(false)
+    expect(subject.page?(page)).to be(true)
+    expect(subject.page?(post)).to be(false)
   end
 
   it "knows a post is a post" do
-    expect(subject.post?(post)).to eql(true)
-    expect(subject.post?(page)).to eql(false)
+    expect(subject.post?(post)).to be(true)
+    expect(subject.post?(page)).to be(false)
   end
 
   it "knows the index is the index" do
-    expect(subject.index?(index)).to eql(true)
-    expect(subject.index?(post)).to eql(false)
-    expect(subject.index?(page)).to eql(false)
+    expect(subject.index?(index)).to be(true)
+    expect(subject.index?(post)).to be(false)
+    expect(subject.index?(page)).to be(false)
   end
 
   it "grabs the markdown converter" do
@@ -39,22 +39,22 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
 
   it "grabs the documents" do
-    expect(subject.documents.count).to eql(6)
+    expect(subject.documents.count).to be(6)
   end
 
   it "knows a file is a markdown file" do
-    expect(subject.markdown?(page)).to eql(true)
-    expect(subject.markdown?(html_file)).to eql(false)
+    expect(subject.markdown?(page)).to be(true)
+    expect(subject.markdown?(html_file)).to be(false)
   end
 
   it "knows when a layout's been specified" do
-    expect(subject.layout_specified?(page)).to eql(false)
-    expect(subject.layout_specified?(page_with_layout)).to eql(true)
+    expect(subject.layout_specified?(page)).to be(false)
+    expect(subject.layout_specified?(page_with_layout)).to be(true)
   end
 
   it "knows when a layout exists" do
-    expect(subject.layout_exists?("page")).to eql(true)
-    expect(subject.layout_exists?("foo")).to eql(false)
+    expect(subject.layout_exists?("page")).to be(true)
+    expect(subject.layout_exists?("foo")).to be(false)
   end
 
   context "determining layouts" do
@@ -104,8 +104,11 @@ RSpec.describe JekyllDefaultLayout::Generator do
 
     context "without any layouts" do
       before { site.layouts.delete("post") }
+
       before { site.layouts.delete("page") }
+
       before { site.layouts.delete("default") }
+
       before { site.layouts.delete("home") }
 
       it "knows the layout for a post" do
@@ -124,15 +127,15 @@ RSpec.describe JekyllDefaultLayout::Generator do
 
   context "when to set the layout" do
     it "knows to set the layout for markdown files" do
-      expect(subject.should_set_layout?(page)).to eql(true)
+      expect(subject.should_set_layout?(page)).to be(true)
     end
 
     it "knows not to set the layout for html files" do
-      expect(subject.should_set_layout?(html_file)).to eql(false)
+      expect(subject.should_set_layout?(html_file)).to be(false)
     end
 
     it "knows not to set the layout for files with layouts" do
-      expect(subject.should_set_layout?(page_with_layout)).to eql(false)
+      expect(subject.should_set_layout?(page_with_layout)).to be(false)
     end
   end
 
@@ -173,7 +176,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
       end
 
       it "doesn't mangle HTML files" do
-        expect(content_of_file("file.html")).to_not match("LAYOUT")
+        expect(content_of_file("file.html")).not_to match("LAYOUT")
       end
 
       context "with front matter defaults" do
@@ -187,6 +190,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
           ]
         end
         let(:overrides) { { "defaults" => defaults } }
+
         before { site.process }
 
         it "respects front matter defaults" do
