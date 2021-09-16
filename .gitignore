@@ -2,3 +2,4 @@ spec/examples.txt
 spec/fixtures/site/_site
 *.gem
 Gemfile.lock
+spec/fixtures/site/.jekyll-cache/
