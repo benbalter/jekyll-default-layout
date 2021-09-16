@@ -2,7 +2,7 @@
 
 *Silently sets default layouts for Jekyll pages and posts*
 
-[![Build Status](https://travis-ci.org/benbalter/jekyll-default-layout.svg?branch=master)](https://travis-ci.org/benbalter/jekyll-default-layout)
+[![CI](https://github.com/benbalter/jekyll-default-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/benbalter/jekyll-default-layout/actions/workflows/ci.yml)
 
 ## Usage
 
