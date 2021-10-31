@@ -1,4 +1,0 @@
----
----
-
-# Page with defaults
