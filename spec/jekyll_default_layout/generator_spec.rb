@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe JekyllDefaultLayout::Generator do
+  subject(:test_subject) { described_class.new(site) }
+
   let(:overrides) { {} }
-  let(:site) { fixture_site("site", overrides) }
-  let(:subject) { described_class.new(site) }
   let(:page) { page_by_path(site, "page.md") }
   let(:index) { page_by_path(site, "index.md") }
   let(:page_with_layout) { page_by_path(site, "page-with-layout.md") }
@@ -12,6 +12,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
   let(:html_file) { page_by_path(site, "file.html") }
   let(:post) { site.posts.docs.first }
+  let(:site) { fixture_site("site", overrides) }
 
   before do
     site.reset
@@ -19,66 +20,66 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
 
   it "knows a page is a page" do
-    expect(subject.page?(page)).to be(true)
-    expect(subject.page?(post)).to be(false)
+    expect(test_subject.page?(page)).to be(true)
+    expect(test_subject.page?(post)).to be(false)
   end
 
   it "knows a post is a post" do
-    expect(subject.post?(post)).to be(true)
-    expect(subject.post?(page)).to be(false)
+    expect(test_subject.post?(post)).to be(true)
+    expect(test_subject.post?(page)).to be(false)
   end
 
   it "knows the index is the index" do
-    expect(subject.index?(index)).to be(true)
-    expect(subject.index?(post)).to be(false)
-    expect(subject.index?(page)).to be(false)
+    expect(test_subject.index?(index)).to be(true)
+    expect(test_subject.index?(post)).to be(false)
+    expect(test_subject.index?(page)).to be(false)
   end
 
   it "grabs the markdown converter" do
-    expect(subject.markdown_converter).to be_a(Jekyll::Converters::Markdown)
+    expect(test_subject.markdown_converter).to be_a(Jekyll::Converters::Markdown)
   end
 
   it "grabs the documents" do
-    expect(subject.documents.count).to be(7)
+    expect(test_subject.documents.count).to be(7)
   end
 
   it "includes collection pages in documents" do
-    expect(subject.documents.map(&:basename)).to(include("collection_page.md"))
+    expect(test_subject.documents.map(&:basename)).to(include("collection_page.md"))
   end
 
   it "knows a file is a markdown file" do
-    expect(subject.markdown?(page)).to be(true)
-    expect(subject.markdown?(html_file)).to be(false)
+    expect(test_subject.markdown?(page)).to be(true)
+    expect(test_subject.markdown?(html_file)).to be(false)
   end
 
   it "knows when a layout's been specified" do
-    expect(subject.layout_specified?(page)).to be(false)
-    expect(subject.layout_specified?(page_with_layout)).to be(true)
+    expect(test_subject.layout_specified?(page)).to be(false)
+    expect(test_subject.layout_specified?(page_with_layout)).to be(true)
   end
 
   it "knows when a layout exists" do
-    expect(subject.layout_exists?("page")).to be(true)
-    expect(subject.layout_exists?("foo")).to be(false)
+    expect(test_subject.layout_exists?("page")).to be(true)
+    expect(test_subject.layout_exists?("foo")).to be(false)
   end
 
-  context "determining layouts" do
+  context "when determining layouts" do
     it "knows the layout for a post" do
-      expect(subject.layout_for(post)).to eql("post")
+      expect(test_subject.layout_for(post)).to eql("post")
     end
 
     it "knows the layout for a page" do
-      expect(subject.layout_for(page)).to eql("page")
+      expect(test_subject.layout_for(page)).to eql("page")
     end
 
     it "knows the layout for the index" do
-      expect(subject.layout_for(index)).to eql("home")
+      expect(test_subject.layout_for(index)).to eql("home")
     end
 
     context "without the page layout" do
       before { site.layouts.delete("page") }
 
       it "knows the layout for a page" do
-        expect(subject.layout_for(page)).to eql("default")
+        expect(test_subject.layout_for(page)).to eql("default")
       end
     end
 
@@ -86,7 +87,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
       before { site.layouts.delete("post") }
 
       it "knows the layout for a post" do
-        expect(subject.layout_for(post)).to eql("default")
+        expect(test_subject.layout_for(post)).to eql("default")
       end
     end
 
@@ -94,56 +95,55 @@ RSpec.describe JekyllDefaultLayout::Generator do
       before { site.layouts.delete("home") }
 
       it "knows the layout for the index" do
-        expect(subject.layout_for(index)).to eql("page")
+        expect(test_subject.layout_for(index)).to eql("page")
       end
 
       context "without the page layout" do
         before { site.layouts.delete("page") }
 
         it "knows the layout for the index" do
-          expect(subject.layout_for(index)).to eql("default")
+          expect(test_subject.layout_for(index)).to eql("default")
         end
       end
     end
 
     context "without any layouts" do
-      before { site.layouts.delete("post") }
-
-      before { site.layouts.delete("page") }
-
-      before { site.layouts.delete("default") }
-
-      before { site.layouts.delete("home") }
+      before do
+        site.layouts.delete("post")
+        site.layouts.delete("page")
+        site.layouts.delete("default")
+        site.layouts.delete("home")
+      end
 
       it "knows the layout for a post" do
-        expect(subject.layout_for(post)).to be_nil
+        expect(test_subject.layout_for(post)).to be_nil
       end
 
       it "knows the layout for a page" do
-        expect(subject.layout_for(page)).to be_nil
+        expect(test_subject.layout_for(page)).to be_nil
       end
 
       it "knows the layout for the index" do
-        expect(subject.layout_for(index)).to be_nil
+        expect(test_subject.layout_for(index)).to be_nil
       end
     end
   end
 
   context "when to set the layout" do
     it "knows to set the layout for markdown files" do
-      expect(subject.should_set_layout?(page)).to be(true)
+      expect(test_subject.should_set_layout?(page)).to be(true)
     end
 
     it "knows not to set the layout for html files" do
-      expect(subject.should_set_layout?(html_file)).to be(false)
+      expect(test_subject.should_set_layout?(html_file)).to be(false)
     end
 
     it "knows not to set the layout for files with layouts" do
-      expect(subject.should_set_layout?(page_with_layout)).to be(false)
+      expect(test_subject.should_set_layout?(page_with_layout)).to be(false)
     end
   end
 
-  context "generating" do
+  context "when generating" do
     before { site.process }
 
     it "sets the layout for pages" do
@@ -166,7 +166,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(page_with_layout.to_liquid["layout"]).to eql("foo")
     end
 
-    context "rendering" do
+    context "when rendering" do
       it "renders pages with the layout" do
         expect(content_of_file("page.html")).to match("PAGE LAYOUT")
       end
