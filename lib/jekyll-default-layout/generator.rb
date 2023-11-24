@@ -56,7 +56,7 @@ module JekyllDefaultLayout
     # rubocop:enable Metrics/PerceivedComplexity
 
     def documents
-      [site.pages, site.posts.docs, collection_docs].flatten
+      [site.pages, collection_docs].flatten
     end
 
     def collection_docs

@@ -39,7 +39,11 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
 
   it "grabs the documents" do
-    expect(subject.documents.count).to be(6)
+    expect(subject.documents.count).to be(7)
+  end
+
+  it "includes collection pages in documents" do
+    expect(subject.documents.map(&:basename)).to(include("collection_page.md"))
   end
 
   it "knows a file is a markdown file" do
