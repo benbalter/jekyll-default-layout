@@ -56,7 +56,20 @@ module JekyllDefaultLayout
     # rubocop:enable Metrics/PerceivedComplexity
 
     def documents
-      [site.pages, site.posts.docs].flatten
+      [site.pages, site.posts.docs, collection_docs].flatten
+    end
+
+    def collection_docs
+      collection_docs = []
+      collection_names.each do |collection_name|
+        collection_docs << site.collections[collection_name].docs
+      end
+
+      collection_docs
+    end
+
+    def collection_names
+      site.collection_names
     end
 
     def markdown_converter
