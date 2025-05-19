@@ -41,7 +41,7 @@ module JekyllDefaultLayout
     end
 
     # What layout is appropriate for this document, if any
-    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     def layout_for(document)
       if index?(document) && layout_exists?("home")
         "home"
@@ -49,14 +49,16 @@ module JekyllDefaultLayout
         "page"
       elsif post?(document) && layout_exists?("post")
         "post"
+      elsif collection?(document) && layout_exists?(document.collection.label)
+        document.collection.label
       elsif layout_exists?("default")
         "default"
       end
     end
-    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
     def documents
-      [site.pages, site.posts.docs].flatten
+      [site.pages, site.collections.values.map(&:docs)].flatten
     end
 
     def markdown_converter
@@ -69,6 +71,10 @@ module JekyllDefaultLayout
 
     def page?(document)
       document.is_a?(Jekyll::Page)
+    end
+
+    def collection?(document)
+      document.is_a?(Jekyll::Document) && !post?(document)
     end
 
     def index?(document)
