@@ -31,6 +31,15 @@ What layout is used:
 * A page - the page layout or the default layout, if they exist, in that order
 * A post - the post layout or the default layout, if they exist, in that order
 
+## HTML Pages
+
+By default, the plugin only applies layouts to Markdown files. If you also want to apply layouts to HTML files that don't have a layout specified, you can enable this feature in your `_config.yml`:
+
+```yml
+jekyll-default-layout:
+  html_pages: true
+```
+
 ## Disabling
 
 For a specific post or page, add `layout: null` to the front matter.
