@@ -3,7 +3,6 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-jekyll
   - rubocop-performance
-  - rubocop-rspec
 
 inherit_gem:
   rubocop-jekyll: .rubocop.yml

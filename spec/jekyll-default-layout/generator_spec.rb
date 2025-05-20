@@ -77,7 +77,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
     it "knows the layout for the index" do
       expect(subject.layout_for(index)).to eql("home")
     end
-    
+
     it "knows the layout for a collection document" do
       expect(subject.layout_for(collection_doc)).to eql("collection_test")
     end
@@ -85,13 +85,13 @@ RSpec.describe JekyllDefaultLayout::Generator do
     context "without the page layout" do
       before { site.layouts.delete("page") }
 
-    context "without the collection layout" do
-      before { site.layouts.delete("collection_test") }
+      context "without the collection layout" do
+        before { site.layouts.delete("collection_test") }
 
-      it "knows the layout for a collection document" do
-        expect(subject.layout_for(collection_doc)).to eql("default")
+        it "knows the layout for a collection document" do
+          expect(subject.layout_for(collection_doc)).to eql("default")
+        end
       end
-    end
       it "knows the layout for a page" do
         expect(subject.layout_for(page)).to eql("default")
       end
@@ -172,7 +172,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
     it "sets the layout for the index" do
       expect(index.to_liquid["layout"]).to eql("home")
     end
-    
+
     it "sets the layout for collection documents" do
       expect(collection_doc.to_liquid["layout"]).to eql("collection_test")
     end
@@ -197,7 +197,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
       it "renders the index with the layout" do
         expect(content_of_file("index.html")).to match("HOME LAYOUT")
       end
-      
+
       it "renders collection documents with the layout" do
         expect(content_of_file("collection_test/document.html")).to match("COLLECTION_TEST LAYOUT")
       end
