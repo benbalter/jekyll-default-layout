@@ -20,7 +20,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency "kramdown-parser-gfm", "~> 1.0"
   s.add_development_dependency "rspec", "~> 3.5"
   s.add_development_dependency "rubocop", "~> 1.0"
+  s.add_development_dependency "rubocop-factory_bot", "~> 2.22.0"
   s.add_development_dependency "rubocop-jekyll", "~> 0.11"
   s.add_development_dependency "rubocop-performance", "~> 1.6"
   s.add_development_dependency "rubocop-rspec", "~> 3.0"
+  s.add_development_dependency "rubocop-rspec", "~> 2.0.0"
 end
