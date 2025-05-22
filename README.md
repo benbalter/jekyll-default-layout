@@ -30,6 +30,7 @@ What layout is used:
 * `/index.md` - the home layout, the page layout, or the default layout, if they exist, in that order
 * A page - the page layout or the default layout, if they exist, in that order
 * A post - the post layout or the default layout, if they exist, in that order
+* A collection document - a layout matching the collection name or the default layout, if they exist, in that order
 
 ## HTML Pages
 

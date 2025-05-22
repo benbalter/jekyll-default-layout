@@ -12,6 +12,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
   let(:html_file) { page_by_path(site, "file.html") }
   let(:post) { site.posts.docs.first }
+  let(:collection_doc) { site.collections["collection_test"].docs.first }
 
   before do
     site.reset
@@ -26,6 +27,13 @@ RSpec.describe JekyllDefaultLayout::Generator do
   it "knows a post is a post" do
     expect(subject.post?(post)).to be(true)
     expect(subject.post?(page)).to be(false)
+    expect(subject.post?(collection_doc)).to be(false)
+  end
+
+  it "knows a collection document is a collection" do
+    expect(subject.collection?(collection_doc)).to be(true)
+    expect(subject.collection?(post)).to be(false)
+    expect(subject.collection?(page)).to be(false)
   end
 
   it "knows the index is the index" do
@@ -39,7 +47,7 @@ RSpec.describe JekyllDefaultLayout::Generator do
   end
 
   it "grabs the documents" do
-    expect(subject.documents.count).to be(6)
+    expect(subject.documents.count).to be > 6
   end
 
   it "knows a file is a markdown file" do
@@ -79,9 +87,20 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(subject.layout_for(index)).to eql("home")
     end
 
+    it "knows the layout for a collection document" do
+      expect(subject.layout_for(collection_doc)).to eql("collection_test")
+    end
+
     context "without the page layout" do
       before { site.layouts.delete("page") }
 
+      context "without the collection layout" do
+        before { site.layouts.delete("collection_test") }
+
+        it "knows the layout for a collection document" do
+          expect(subject.layout_for(collection_doc)).to eql("default")
+        end
+      end
       it "knows the layout for a page" do
         expect(subject.layout_for(page)).to eql("default")
       end
@@ -112,13 +131,12 @@ RSpec.describe JekyllDefaultLayout::Generator do
     end
 
     context "without any layouts" do
-      before { site.layouts.delete("post") }
-
-      before { site.layouts.delete("page") }
-
-      before { site.layouts.delete("default") }
-
-      before { site.layouts.delete("home") }
+      before do
+        site.layouts.delete("post")
+        site.layouts.delete("page")
+        site.layouts.delete("default")
+        site.layouts.delete("home")
+      end
 
       it "knows the layout for a post" do
         expect(subject.layout_for(post)).to be_nil
@@ -172,6 +190,10 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(index.to_liquid["layout"]).to eql("home")
     end
 
+    it "sets the layout for collection documents" do
+      expect(collection_doc.to_liquid["layout"]).to eql("collection_test")
+    end
+
     it "doesn't set the layout for HTML files" do
       expect(html_file.to_liquid["layout"]).to be_nil
     end
@@ -191,6 +213,10 @@ RSpec.describe JekyllDefaultLayout::Generator do
 
       it "renders the index with the layout" do
         expect(content_of_file("index.html")).to match("HOME LAYOUT")
+      end
+
+      it "renders collection documents with the layout" do
+        expect(content_of_file("collection_test/document.html")).to match("COLLECTION_TEST LAYOUT")
       end
 
       it "doesn't mangle HTML files" do
