@@ -3,5 +3,6 @@ spec/fixtures/site/_site
 *.gem
 Gemfile.lock
 spec/fixtures/site/.jekyll-cache/
+vendor/bundle/
 vendor/
 .bundle/
