@@ -122,13 +122,12 @@ RSpec.describe JekyllDefaultLayout::Generator do
     end
 
     context "without any layouts" do
-      before { site.layouts.delete("post") }
-
-      before { site.layouts.delete("page") }
-
-      before { site.layouts.delete("default") }
-
-      before { site.layouts.delete("home") }
+      before do
+        site.layouts.delete("post")
+        site.layouts.delete("page")
+        site.layouts.delete("default")
+        site.layouts.delete("home")
+      end
 
       it "knows the layout for a post" do
         expect(subject.layout_for(post)).to be_nil
