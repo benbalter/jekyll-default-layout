@@ -1,7 +1,0 @@
-inherit_from: ../../.rubocop.yml
-
-# Disable problematic cops with incompatible configurations
-FactoryBot/CreateList:
-  Enabled: false
-RSpecRails/NegationBeValid:
-  Enabled: false
