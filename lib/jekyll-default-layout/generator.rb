@@ -22,7 +22,8 @@ module JekyllDefaultLayout
     end
 
     def should_set_layout?(document)
-      markdown?(document) && !layout_specified?(document)
+      !layout_specified?(document) &&
+        (markdown?(document) || (html?(document) && html_pages_enabled?))
     end
 
     # Does the given layout exist for the site?
@@ -38,6 +39,17 @@ module JekyllDefaultLayout
 
     def markdown?(document)
       markdown_converter.matches(document.extname)
+    end
+
+    def html?(document)
+      document.extname == ".html"
+    end
+
+    # HTML pages are only given a default layout when the user opts in via
+    # `jekyll-default-layout: { html_pages: true }` in _config.yml.
+    def html_pages_enabled?
+      config = site.config["jekyll-default-layout"]
+      config.is_a?(Hash) && config["html_pages"] == true
     end
 
     # What layout is appropriate for this document, if any

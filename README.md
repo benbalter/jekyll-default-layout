@@ -32,6 +32,15 @@ What layout is used:
 * A post - the post layout or the default layout, if they exist, in that order
 * A collection document - a layout matching the collection name or the default layout, if they exist, in that order
 
+## HTML pages
+
+By default, the plugin only applies layouts to Markdown files. To also apply layouts to HTML files that don't specify one, opt in via your `_config.yml`:
+
+```yml
+jekyll-default-layout:
+  html_pages: true
+```
+
 ## Disabling
 
 For a specific post or page, add `layout: null` to the front matter.
