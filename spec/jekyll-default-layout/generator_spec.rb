@@ -55,6 +55,15 @@ RSpec.describe JekyllDefaultLayout::Generator do
     expect(subject.markdown?(html_file)).to be(false)
   end
 
+  it "knows a file is an HTML file" do
+    expect(subject.html?(page)).to be(false)
+    expect(subject.html?(html_file)).to be(true)
+  end
+
+  it "knows HTML pages support is disabled by default" do
+    expect(subject.html_pages_enabled?).to be(false)
+  end
+
   it "knows when a layout's been specified" do
     expect(subject.layout_specified?(page)).to be(false)
     expect(subject.layout_specified?(page_with_layout)).to be(true)
@@ -148,12 +157,21 @@ RSpec.describe JekyllDefaultLayout::Generator do
       expect(subject.should_set_layout?(page)).to be(true)
     end
 
-    it "knows not to set the layout for html files" do
+    it "knows not to set the layout for html files by default" do
       expect(subject.should_set_layout?(html_file)).to be(false)
     end
 
     it "knows not to set the layout for files with layouts" do
       expect(subject.should_set_layout?(page_with_layout)).to be(false)
+    end
+
+    context "with html_pages enabled" do
+      let(:overrides) { { "jekyll-default-layout" => { "html_pages" => true } } }
+
+      it "sets the layout for HTML files" do
+        expect(subject.html_pages_enabled?).to be(true)
+        expect(subject.should_set_layout?(html_file)).to be(true)
+      end
     end
   end
 
@@ -203,6 +221,14 @@ RSpec.describe JekyllDefaultLayout::Generator do
 
       it "doesn't mangle HTML files" do
         expect(content_of_file("file.html")).not_to match("LAYOUT")
+      end
+
+      context "with html_pages enabled" do
+        let(:overrides) { { "jekyll-default-layout" => { "html_pages" => true } } }
+
+        it "applies the layout to HTML files" do
+          expect(content_of_file("file.html")).to match("PAGE LAYOUT")
+        end
       end
 
       context "with front matter defaults" do
