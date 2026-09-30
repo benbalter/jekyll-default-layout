@@ -10,6 +10,14 @@ Gem::Specification.new do |s|
   s.email         = ["ben.balter@github.com"]
   s.homepage      = "https://github.com/benbalter/jekyll-default-layout"
   s.summary       = "Silently sets default layouts for Jekyll pages and posts"
+  s.description   = "Jekyll plugin that silently sets default layouts for pages, posts, " \
+                    "and collection documents that don't specify one. Supported on GitHub Pages."
+  s.metadata      = {
+    "homepage_uri"    => "https://github.com/benbalter/jekyll-default-layout",
+    "source_code_uri" => "https://github.com/benbalter/jekyll-default-layout",
+    "bug_tracker_uri" => "https://github.com/benbalter/jekyll-default-layout/issues",
+    "changelog_uri"   => "https://github.com/benbalter/jekyll-default-layout/releases",
+  }
 
   s.files         = `git ls-files app lib`.split("\n")
   s.platform      = Gem::Platform::RUBY

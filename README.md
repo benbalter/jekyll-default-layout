@@ -1,6 +1,6 @@
 # Jekyll Default Layout
 
-*Silently sets default layouts for Jekyll pages and posts*
+*Jekyll plugin that silently sets default layouts for pages, posts, and collection documents that don't specify one. Supported on GitHub Pages.*
 
 [![CI](https://github.com/benbalter/jekyll-default-layout/actions/workflows/ci.yml/badge.svg)](https://github.com/benbalter/jekyll-default-layout/actions/workflows/ci.yml)
 
