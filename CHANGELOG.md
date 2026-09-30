@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.1
+
+Maintenance release: no runtime behavior changes.
+
+### Documentation
+
+- Add a gemspec description and RubyGems metadata (homepage, source code,
+  bug tracker, and changelog links), and lead the README with the same
+  one-line description (#44)
+
+### Infrastructure
+
+- Move dependency updates to Renovate
+
 ## 0.2.0
 
 ### Features
