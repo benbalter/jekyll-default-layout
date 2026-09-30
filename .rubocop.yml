@@ -13,5 +13,8 @@ AllCops:
   NewCops: enable
 
 Metrics/BlockLength:
+  inherit_mode:
+    merge:
+      - Exclude
   Exclude:
     - spec/**/*
